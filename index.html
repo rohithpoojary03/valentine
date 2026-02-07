@@ -33,7 +33,6 @@ body {
   font-size:20px;
   animation: floatUp 8s linear infinite;
   opacity:.6;
-  transition: transform .2s ease;
 }
 @keyframes floatUp {
   to { transform:translateY(-120vh) scale(1.4); opacity:0; }
@@ -54,6 +53,20 @@ body {
 @keyframes cardIn {
   from { transform:translateY(20px) scale(.98); opacity:0; }
   to { transform:translateY(0) scale(1); opacity:1; }
+}
+
+/* intro gif */
+.intro-gif {
+  width:220px;
+  max-width:60%;
+  margin:0 auto 16px;
+  border-radius:18px;
+  display:block;
+}
+.fade-out {
+  opacity:0;
+  transform:scale(.92);
+  transition:all .6s ease;
 }
 
 /* sparkles */
@@ -118,7 +131,6 @@ button {
   transition:.25s;
 }
 button:hover { transform:translateY(-2px) scale(1.04); }
-button:active { transform:scale(.96); }
 
 #yes {
   position:absolute;
@@ -127,12 +139,6 @@ button:active { transform:scale(.96); }
   transform:translateY(-50%);
   background:var(--pink1);
   color:white;
-  animation:pulseGlow 1.8s infinite;
-}
-@keyframes pulseGlow {
-  0%{box-shadow:0 0 0 rgba(255,95,162,.6);}
-  50%{box-shadow:0 0 25px rgba(255,95,162,.9);}
-  100%{box-shadow:0 0 0 rgba(255,95,162,.6);}
 }
 #no {
   position:absolute;
@@ -202,11 +208,6 @@ button:active { transform:scale(.96); }
   max-width:95%;
   max-height:95%;
   border-radius:16px;
-  animation:zoomIn .35s ease;
-}
-@keyframes zoomIn {
-  from{transform:scale(.85);opacity:0}
-  to{transform:scale(1);opacity:1}
 }
 
 canvas {
@@ -242,6 +243,9 @@ for(let i=0;i<18;i++){
 <div class="sparkle sparkle1">✨</div>
 <div class="sparkle sparkle2">✨</div>
 
+<img id="introGif" class="intro-gif"
+src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExODAyOHV3Y2g5ZnplbXdpZHIwNWlsc2hkZzFmcnU5amhsZWxnNzBmMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IzXiddo2twMmdmU8Lv/giphy.gif">
+
 <h1 id="page1Title" class="main-title">
   Rakhi, Will you be my Valentine? 💖
 </h1>
@@ -253,6 +257,7 @@ for(let i=0;i<18;i++){
 </section>
 <p class="hint">The “No” button is just pretending 😌</p>
 
+<!-- PAGE 2 -->
 <section class="result" id="result">
   <h3>She said YES!!! 💕</h3>
   <p>You just made my heart very happy 🥹</p>
@@ -264,6 +269,7 @@ for(let i=0;i<18;i++){
   <button id="next">I choose you 💖 ➡️</button>
 </section>
 
+<!-- PAGE 3 -->
 <section class="gallery-page" id="galleryPage">
   <div class="note">
     <strong>Rakhi,</strong><br>
@@ -300,6 +306,7 @@ for(let i=0;i<18;i++){
 const no=document.getElementById("no");
 const zone=document.getElementById("zone");
 const song=document.getElementById("loveSong");
+const introGif=document.getElementById("introGif");
 
 zone.addEventListener("pointermove",e=>{
   const r=no.getBoundingClientRect();
@@ -310,6 +317,9 @@ zone.addEventListener("pointermove",e=>{
 });
 
 yes.onclick=()=>{
+  introGif.classList.add("fade-out");
+  setTimeout(()=>introGif.remove(),600);
+
   zone.style.display="none";
   page1Title.style.display="none";
   document.querySelector(".soft-line").style.display="none";
@@ -348,13 +358,6 @@ imgs.forEach(img=>{
   };
 });
 lightbox.onclick=()=>lightbox.style.display="none";
-
-document.addEventListener("mousemove",e=>{
-  document.querySelectorAll(".heart").forEach(h=>{
-    const s=parseFloat(h.style.fontSize)/40;
-    h.style.transform=`translate(${e.clientX*s*.01}px,${e.clientY*s*.01}px)`;
-  });
-});
 </script>
 
 </body>
